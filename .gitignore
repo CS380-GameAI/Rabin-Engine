@@ -2,14 +2,14 @@
 #*.d
 
 # Compiled Object files
-#*.slo
-#*.lo
-#*.o
-#*.obj
+*.slo
+*.lo
+*.o
+*.obj
 
 # Precompiled Headers
-#*.gch
-#*.pch
+*.gch
+*.pch
 
 # Compiled Dynamic libraries
 #*.so
@@ -33,3 +33,5 @@
 
 # Visual Studio Local Temp Files
 .vs/
+
+x64/
