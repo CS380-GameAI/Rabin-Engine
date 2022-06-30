@@ -1,4 +1,4 @@
-# The Rabin Engine v2021.0
+# The Rabin Engine v2022.0
 
 ## Basic Info:
 1. Create a GitHub account using YOUR DIGIPEN EMAIL as the primary email address and YOUR FULL NAME or DIGIPEN USERNAME as the username. We must be able to tell who you are in the class simply by looking at the username and email of the github account.
