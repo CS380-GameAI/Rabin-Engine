@@ -6,7 +6,7 @@
 3. Complete the projects as stated in the project rubrics. You should only need to clone once for the entire semester.
 4. To recieve extra credit for a bug: please fill out an issue report to this github page following the guidelines in the SAMPLE ISSUE. The issue will then be reviewed by the TA's for verification and eligibility for EC. Extra credit will only be given to those students who follow each of these steps.
 
-Extra credit given cannot push your grade past %100.
+Extra credit given cannot push your grade past 100%.
 All existing rubric requirements remain, including submission instructions.
 
 ### DO NOT SHARE THIS REPO WITH STUDENTS OUTSIDE OF THE CLASS OR DIGIPEN
