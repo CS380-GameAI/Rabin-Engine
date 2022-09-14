@@ -181,6 +181,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="L_FormCircle.h" />
+    <ClInclude Include="L_MoveToPosition.h" />
     <ClInclude Include="Source\Framework\Agent\Agent.h" />
     <ClInclude Include="Source\Framework\Agent\AgentOrganizer.h" />
     <ClInclude Include="Source\Framework\Agent\BehaviorAgent.h" />
@@ -263,6 +265,8 @@
     <ClInclude Include="Source\Student\Project_2\P2_Pathfinding.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="L_FormCircle.cpp" />
+    <ClCompile Include="L_MoveToPosition.cpp" />
     <ClCompile Include="Source\Framework\Agent\Agent.cpp" />
     <ClCompile Include="Source\Framework\Agent\AgentOrganizer.cpp" />
     <ClCompile Include="Source\Framework\Agent\BehaviorAgent.cpp" />

@@ -5,7 +5,10 @@
 void ProjectOne::setup()
 {
     // Create your inital agents
-    agents->create_behavior_agent("ExampleAgent", BehaviorTreeTypes::Example);
+    agents->create_behavior_agent("Agent0", BehaviorTreeTypes::Example);
+    agents->create_behavior_agent("Agent1", BehaviorTreeTypes::Example);
+    agents->create_behavior_agent("Agent2", BehaviorTreeTypes::Example);
+    agents->create_behavior_agent("Agent3", BehaviorTreeTypes::Example);
 
     // you can technically load any map you want, even create your own map file,
     // but behavior agents won't actually avoid walls or anything special, unless you code that yourself

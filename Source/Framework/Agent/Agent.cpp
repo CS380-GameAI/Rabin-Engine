@@ -21,8 +21,15 @@ const Vec3 globalForward = Vec3(0.0f, 0.0f, 1.0f);
 // TODO: move this temp model stuff to renderer in some capacity, if time permits
 std::unique_ptr<DirectX::Model> Agent::model;
 
-Agent::Agent(const char *type, size_t id) : position(0.0f, 0.0f, 0.0f),
-    scaling(3.0f, 3.0f, 3.0f), eulerAngles(0.0f, 0.0f, 0.0f), isDirty(true), color(0.7f, 0.7f, 0.7f), type(type), id(id), movementSpeed(2000.0f / 2.3f)
+Agent::Agent(const char *type, size_t id) : 
+    position(0.0f, 0.0f, 0.0f)
+    , scaling(3.0f, 3.0f, 3.0f)
+    , eulerAngles(0.0f, 0.0f, 0.0f)
+    , isDirty(true)
+    , color(0.7f, 0.7f, 0.7f)
+    , type(type)
+    , id(id)
+    , movementSpeed(2000.0f / 2.3f)
 {}
 
 #pragma region Getters

@@ -38,6 +38,7 @@ public:
     EnemyAgent *create_enemy_agent();
     void destroy_agent(Agent *agent);
     
+    Agent* GetAgentByName(const char* name);
     const std::vector<Agent *> &get_all_agents() const;
     const std::vector<Agent *> &get_all_agents_by_type(const char *type);
     CameraAgent *const get_camera_agent() const;
@@ -48,6 +49,7 @@ public:
 private:
     CameraAgent *cameraAgent;
     std::vector<Agent *> agentsAll;
+    std::unordered_map<const char*, Agent*> agentMap;
     std::unordered_map<const char *, std::vector<Agent *>> agentsByType;
     std::unordered_map<const char *, size_t> agentIDCounts;
     std::vector<size_t> markedForDeletion;

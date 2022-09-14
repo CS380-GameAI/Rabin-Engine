@@ -64,6 +64,7 @@ BehaviorAgent *AgentOrganizer::create_behavior_agent(const char *type, BehaviorT
 
         agentsAll.emplace_back(agent);
         agentsByType[type].emplace_back(agent);
+        agentMap[type] = agent;
 
         #ifdef _DEBUG
             assign_text_field(agent);
@@ -122,6 +123,11 @@ void AgentOrganizer::destroy_agent(Agent *agent)
             break;
         }
     }
+}
+
+Agent* AgentOrganizer::GetAgentByName(const char* name)
+{
+    return agentMap[name];
 }
 
 const std::vector<Agent*> &AgentOrganizer::get_all_agents() const
