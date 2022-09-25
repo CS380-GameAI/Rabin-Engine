@@ -29,77 +29,77 @@ void RNG::seed()
 
 bool RNG::coin_toss()
 {
-    const std::bernoulli_distribution dist;
+    std::bernoulli_distribution dist;
 
     return dist(generator);
 }
 
 unsigned RNG::d2()
 {
-    const std::uniform_int_distribution<unsigned> dist(1, 2);
+    std::uniform_int_distribution<unsigned> dist(1, 2);
     
     return dist(generator);
 }
 
 unsigned RNG::d3()
 {
-    const std::uniform_int_distribution<unsigned> dist(1, 3);
+    std::uniform_int_distribution<unsigned> dist(1, 3);
 
     return dist(generator);
 }
 
 unsigned RNG::d4()
 {
-    const std::uniform_int_distribution<unsigned> dist(1, 4);
+    std::uniform_int_distribution<unsigned> dist(1, 4);
 
     return dist(generator);
 }
 
 unsigned RNG::d6()
 {
-    const std::uniform_int_distribution<unsigned> dist(1, 6);
+    std::uniform_int_distribution<unsigned> dist(1, 6);
 
     return dist(generator);
 }
 
 unsigned RNG::d8()
 {
-    const std::uniform_int_distribution<unsigned> dist(1, 8);
+    std::uniform_int_distribution<unsigned> dist(1, 8);
 
     return dist(generator);
 }
 
 unsigned RNG::d10()
 {
-    const std::uniform_int_distribution<unsigned> dist(1, 10);
+    std::uniform_int_distribution<unsigned> dist(1, 10);
 
     return dist(generator);
 }
 
 unsigned RNG::d12()
 {
-    const std::uniform_int_distribution<unsigned> dist(1, 12);
+    std::uniform_int_distribution<unsigned> dist(1, 12);
 
     return dist(generator);
 }
 
 unsigned RNG::d20()
 {
-    const std::uniform_int_distribution<unsigned> dist(1, 20);
+    std::uniform_int_distribution<unsigned> dist(1, 20);
 
     return dist(generator);
 }
 
 unsigned RNG::d100()
 {
-    const std::uniform_int_distribution<unsigned> dist(1, 100);
+    std::uniform_int_distribution<unsigned> dist(1, 100);
 
     return dist(generator);
 }
 
 Vec2 RNG::unit_vector_2D()
 {
-    const std::uniform_real_distribution<float> dist(0.0f, PI);
+    std::uniform_real_distribution<float> dist(0.0f, PI);
 
     const float azimuth = dist(generator);
 
@@ -108,7 +108,7 @@ Vec2 RNG::unit_vector_2D()
 
 Vec3 RNG::unit_vector_3D()
 {
-    const std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+    std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
 
     const float z = dist(generator);
 
@@ -119,14 +119,14 @@ Vec3 RNG::unit_vector_3D()
 
 Color RNG::color(float alpha)
 {
-    const std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+    std::uniform_real_distribution<float> dist(0.0f, 1.0f);
 
     return Color(dist(generator), dist(generator), dist(generator), alpha);
 }
 
 Vec3 RNG::world_position()
 {
-    const std::uniform_real_distribution<float> dist(0.0f, terrain->mapSizeInWorld);
+    std::uniform_real_distribution<float> dist(0.0f, terrain->mapSizeInWorld);
     
     return Vec3(dist(generator), 0.0f, dist(generator));
 }
