@@ -73,7 +73,7 @@ void AudioManager::StopMusic(const std::wstring& musicTrackPath)
 
 void AudioManager::Update()
 {
-	audioEngine->Update();
+  audioEngine->Update();
 }
 
 SoundEffect& AudioManager::FindOrLoadSoundEffect(const std::wstring& soundEffectPath)
