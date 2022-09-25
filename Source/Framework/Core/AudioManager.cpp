@@ -31,8 +31,8 @@ AudioManager::~AudioManager()
   {
     sfx->second.release();
   }
-
-	audioEngine.release();
+  
+  audioEngine.release();
 }
 
 void AudioManager::SetVolume(float volume)
