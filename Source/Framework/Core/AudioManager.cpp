@@ -12,12 +12,12 @@ AudioManager::AudioManager() :
   soundEffects(),
   musicTracks()
 {
-	// This is only needed in Windows desktop apps
-	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-	if (FAILED(hr))
-		throw std::runtime_error("Couldn't initialize the Audio Manager.");
+  // This is only needed in Windows desktop apps
+  HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+  if (FAILED(hr))
+	  throw std::runtime_error("Couldn't initialize the Audio Manager.");
 
-	SetVolume(0.5f);
+  SetVolume(0.5f);
 }
 
 AudioManager::~AudioManager()
