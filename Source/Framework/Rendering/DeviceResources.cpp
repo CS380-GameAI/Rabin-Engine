@@ -17,7 +17,7 @@ written consent of DigiPen Institute of Technology is prohibited.
 namespace
 {
     const auto windowClassName = L"AI_FrameworkWindowClass";
-    const auto windowTitle = L"AI Framework";
+    const auto windowTitle = L"AI Framework - Rabin Engine";
     const auto assetsPath = L".\\Assets";
 }
 
