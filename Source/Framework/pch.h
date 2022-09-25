@@ -92,6 +92,7 @@ written consent of DigiPen Institute of Technology is prohibited.
 #include "Core/Messenger.h"
 #include "Misc/RNG.h"
 #include "Core/Serialization.h"
+#include "Core/AudioManager.h"
 
 namespace DX
 {

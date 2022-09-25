@@ -56,6 +56,7 @@ bool ProjectTwo::initialize()
     agents = std::make_unique<AgentOrganizer>();
     ui = std::make_unique<UICoordinator>();
     pather = std::make_unique<AStarPather>();
+    audioManager = std::make_unique<AudioManager>();
 
     return terrain->initialize() &&
         agents->initialize() &&

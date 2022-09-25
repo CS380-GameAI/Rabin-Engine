@@ -25,5 +25,6 @@
 #include "Leaf/L_MoveToFurthestAgent.h"
 #include "Leaf/L_MoveToMouseClick.h"
 #include "Leaf/L_MoveToRandomPosition.h"
+#include "Leaf/L_PlaySound.h"
 
 // Student Leaf Nodes

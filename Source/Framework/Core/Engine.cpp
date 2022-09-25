@@ -25,6 +25,7 @@ std::unique_ptr<AgentOrganizer> agents;
 std::unique_ptr<UICoordinator> ui;
 std::unique_ptr<AStarPather> pather;
 std::unique_ptr<BehaviorTreeBuilder> treeBuilder;
+std::unique_ptr<AudioManager> audioManager;
 
 float deltaTime = 0.16f;
 
