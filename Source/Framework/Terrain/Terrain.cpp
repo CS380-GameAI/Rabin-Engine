@@ -217,6 +217,11 @@ int Terrain::get_map_width() const
     return mapData[currentMap].width;
 }
 
+unsigned Terrain::get_map_index() const
+{
+    return currentMap;
+}
+
 const Vec3 &Terrain::get_world_position(int row, int col) const
 {
     return positions[row][col];

@@ -58,13 +58,13 @@ bool ProjectThree::finalize()
     enemy->set_color(Vec3(0.8f, 0.0f, 0.0f));
     enemy->set_player(player);
 
-    set_propagation_growth(0.15f);
-    set_propagation_decay(0.05f);
-
     build_ui();
+
+    reset_to_defaults();
 
     terrain->goto_map(0);
     terrain->pathLayer.set_enabled(true);
+    on_map_change();
 
     // set up the time tracker to listen for analysis messages
     Callback timerResetCB = std::bind(&decltype(analysisTimer)::reset, &analysisTimer);
@@ -75,6 +75,9 @@ bool ProjectThree::finalize()
 
     Callback timerStopCB = std::bind(&decltype(analysisTimer)::stop, &analysisTimer);
     Messenger::listen_for_message(Messages::ANALYSIS_TICK_FINISH, timerStopCB);
+
+    Callback onMapChangeCB = std::bind(&ProjectThree::on_map_change, this);
+    Messenger::listen_for_message(Messages::MAP_CHANGE, onMapChangeCB);
 
     link_input();
 
@@ -224,6 +227,11 @@ const std::wstring &ProjectThree::get_propagation_growth_text()
     return propagationGrowthText;
 }
 
+const std::wstring& ProjectThree::get_current_map_text()
+{
+  return currentMapText;
+}
+
 void ProjectThree::build_ui()
 {
     // add a text field at the top for the project
@@ -235,10 +243,14 @@ void ProjectThree::build_ui()
     Callback nextMapCB = std::bind(&Terrain::goto_next_map, terrain.get());
     auto mapButton = ui->create_button(UIAnchor::TOP_RIGHT, -90, 32, nextMapCB, L"Next Map");
 
+    // Add the map number
+    TextGetter mapGetter = std::bind(&ProjectThree::get_current_map_text, this);
+    auto mapText = ui->create_value_text_field(UIAnchor::BOTTOM, mapButton, 10, L" Current Map: ", mapGetter);
+
     // setup the analysis buttons
     Callback opennessCB = std::bind(&ProjectThree::toggle_openness, this);
     Getter<bool> opennessGet = std::bind(&ProjectThree::get_openness_state, this);
-    auto opennessButton = ui->create_toggle_button(UIAnchor::BOTTOM, mapButton,
+    auto opennessButton = ui->create_toggle_button(UIAnchor::BOTTOM, mapText,
         10, opennessCB, L"Openness", opennessGet);
 
     Callback totalVisCB = std::bind(&ProjectThree::toggle_total_visibility, this);
@@ -288,32 +300,35 @@ void ProjectThree::build_ui()
     Getter<unsigned> frequencyGet = std::bind(&ProjectThree::get_analysis_frequency, this);
     Setter<unsigned> frequencySet = std::bind(&ProjectThree::set_analysis_frequency, this, std::placeholders::_1);
     TextGetter frequencyText = std::bind(&ProjectThree::get_analysis_frequency_text, this);
-    auto frequencySlider = ui->create_slider<unsigned>(UIAnchor::BOTTOM, analysisTimeText, 10,
+    frequencySlider = ui->create_slider<unsigned>(UIAnchor::BOTTOM, analysisTimeText, 10,
         1, 20, frequencyGet, frequencySet, frequencyText, L"Ticks Per Sec:");
 
     Getter<float> decayGet = std::bind(&ProjectThree::get_propagation_decay, this);
     Setter<float> decaySet = std::bind(&ProjectThree::set_propagation_decay, this, std::placeholders::_1);
     TextGetter decayText = std::bind(&ProjectThree::get_propagation_decay_text, this);
-    auto decaySlider = ui->create_slider<float>(UIAnchor::BOTTOM, frequencySlider,
+    decaySlider = ui->create_slider<float>(UIAnchor::BOTTOM, frequencySlider,
         10, 0.0f, 0.1f, decayGet, decaySet, decayText, L"Decay");
 
     Getter<float> growthGet = std::bind(&ProjectThree::get_propagation_growth, this);
     Setter<float> growthSet = std::bind(&ProjectThree::set_propagation_growth, this, std::placeholders::_1);
     TextGetter growthText = std::bind(&ProjectThree::get_propagation_growth_text, this);
-    auto growthSlider = ui->create_slider<float>(UIAnchor::BOTTOM, decaySlider,
+    growthSlider = ui->create_slider<float>(UIAnchor::BOTTOM, decaySlider,
         10, 0.0f, 1.0f, growthGet, growthSet, growthText, L"Growth");
 
     Getter<float> fovGet = std::bind(&EnemyAgent::get_fov, enemy);
     Setter<float> fovSet = std::bind(&EnemyAgent::set_fov, enemy, std::placeholders::_1);
     TextGetter fovText = std::bind(&EnemyAgent::get_fov_text, enemy);
-    auto fovSlider = ui->create_slider<float>(UIAnchor::BOTTOM, growthSlider,
+    fovSlider = ui->create_slider<float>(UIAnchor::BOTTOM, growthSlider,
         10, 10.0f, 180.0f, fovGet, fovSet, fovText, L"Enemy FOV");
 
     Getter<float> radiusGet = std::bind(&EnemyAgent::get_radius, enemy);
     Setter<float> radiusSet = std::bind(&EnemyAgent::set_radius, enemy, std::placeholders::_1);
     TextGetter radiusText = std::bind(&EnemyAgent::get_radius_text, enemy);
-    auto radiusSlider = ui->create_slider<float>(UIAnchor::BOTTOM, fovSlider,
+    radiusSlider = ui->create_slider<float>(UIAnchor::BOTTOM, fovSlider,
         10, 1.0f, 10.0f, radiusGet, radiusSet, radiusText, L"Enemy Dist.");
+
+    Callback resetDefaultsCB = std::bind(&ProjectThree::reset_to_defaults, this);
+    auto defaultsButton = ui->create_button(UIAnchor::BOTTOM, radiusSlider, 70, resetDefaultsCB, L"Defaults");
 }
 
 void ProjectThree::link_input()
@@ -397,6 +412,11 @@ void ProjectThree::on_mouse_right_click()
             }
         }
     }
+}
+
+void ProjectThree::on_map_change()
+{
+  currentMapText = std::to_wstring(terrain->currentMap);
 }
 
 void ProjectThree::toggle_openness()
@@ -592,6 +612,20 @@ void ProjectThree::perform_hide_and_seek()
 
     Messenger::send_message(Messages::ANALYSIS_TICK_FINISH);
     Messenger::send_message(Messages::ANALYSIS_END);
+}
+
+void ProjectThree::reset_to_defaults()
+{
+  set_analysis_frequency(15);
+  frequencySlider->update_knob_position();
+  set_propagation_decay(0.05f);
+  decaySlider->update_knob_position();
+  set_propagation_growth(0.15f);
+  growthSlider->update_knob_position();
+  enemy->set_fov(180.f);
+  fovSlider->update_knob_position();
+  enemy->set_radius(2.f);
+  radiusSlider->update_knob_position();
 }
 
 bool ProjectThree::get_openness_state()
