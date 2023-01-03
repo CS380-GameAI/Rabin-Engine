@@ -23,6 +23,8 @@ public:
     virtual bool finalize() override final;
     virtual void shutdown() override final;
 
+    void reset_to_defaults();
+
     virtual void draw_meshes() override final;
     virtual void draw_sprites() override final;
     virtual void draw_text() override final;
@@ -39,12 +41,19 @@ private:
     std::wstring propagationDecayText;
     std::wstring propagationGrowthText;
     std::wstring analysisFrequencyText;
+    std::wstring currentMapText;
 
     float propagationDecay;
     float propagationGrowth;
     unsigned analysisFrequency;
     unsigned frequencyMod;
     unsigned frequencyOffset;
+
+    UISlider<unsigned>* frequencySlider;
+    UISlider<float>* decaySlider;
+    UISlider<float>* growthSlider;
+    UISlider<float>* fovSlider;
+    UISlider<float>* radiusSlider;
 
     bool openness;
     bool totalVisibility;
@@ -67,12 +76,15 @@ private:
     void set_propagation_growth(const float &val);
     const std::wstring &get_propagation_growth_text();
 
+    const std::wstring& get_current_map_text();
+
     void build_ui();
     void link_input();
     void on_f1();
     void on_f2();
     void on_mouse_left_click();
     void on_mouse_right_click();
+    void on_map_change();
 
     void toggle_openness();
     void toggle_total_visibility();

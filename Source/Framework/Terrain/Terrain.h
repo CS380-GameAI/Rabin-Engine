@@ -37,6 +37,7 @@ public:
 
     int get_map_height() const;
     int get_map_width() const;
+    unsigned get_map_index() const;
 
     const Vec3 &get_world_position(int row, int col) const;
     const Vec3 &get_world_position(const GridPos &gridPos);
