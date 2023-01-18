@@ -79,7 +79,7 @@ inline std::enable_if_t<std::is_integral<T>::value, T> RNG::typed_range(T min, T
     using Type = std::uniform_int_distribution<T>;
 
     // guard against flipped values, or negative value confusion
-    const Type dist = (min < max) ? Type(min, max) : Type(max, min);
+    Type dist = (min < max) ? Type(min, max) : Type(max, min);
 
     return dist(generator);
 }
@@ -90,7 +90,7 @@ inline std::enable_if_t<std::is_floating_point<T>::value, T> RNG::typed_range(T 
     using Type = std::uniform_real_distribution<T>;
 
     // guard against flipped values, or negative value confusion
-    const Type dist = (min < max) ? Type(min, max) : Type(max, min);
+    Type dist = (min < max) ? Type(min, max) : Type(max, min);
 
     return dist(generator);
 }
