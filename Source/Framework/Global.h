@@ -28,7 +28,7 @@ class Project;
 class AStarPather;
 class UICoordinator;
 class BehaviorTreeBuilder;
-class AudioWrapper;
+class AudioManager;
 
 extern std::unique_ptr<Engine> engine;
 extern std::unique_ptr<SimpleRenderer> renderer;
@@ -38,7 +38,7 @@ extern std::unique_ptr<Project> project;
 extern std::unique_ptr<AStarPather> pather;
 extern std::unique_ptr<UICoordinator> ui;
 extern std::unique_ptr<BehaviorTreeBuilder> treeBuilder;
-extern std::unique_ptr<AudioWrapper> audio;
+extern std::unique_ptr<AudioManager> audioManager;
 
 // scalar that is based on the size of the map, effectively desired world size / map size
 extern float globalScalar;

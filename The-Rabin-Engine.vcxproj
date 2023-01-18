@@ -194,6 +194,7 @@
     <ClInclude Include="Source\Framework\BehaviorTrees\BehaviorTree.h" />
     <ClInclude Include="Source\Framework\BehaviorTrees\NodeInfo.h" />
     <ClInclude Include="Source\Framework\BehaviorTrees\TreeInfo.h" />
+    <ClInclude Include="Source\Framework\Core\AudioManager.h" />
     <ClInclude Include="Source\Framework\Core\Engine.h" />
     <ClInclude Include="Source\Framework\Core\Messages.h" />
     <ClInclude Include="Source\Framework\Core\Messenger.h" />
@@ -259,6 +260,7 @@
     <ClInclude Include="Source\Student\Project_1\Leaf\L_MoveToFurthestAgent.h" />
     <ClInclude Include="Source\Student\Project_1\Leaf\L_MoveToMouseClick.h" />
     <ClInclude Include="Source\Student\Project_1\Leaf\L_MoveToRandomPosition.h" />
+    <ClInclude Include="Source\Student\Project_1\Leaf\L_PlaySound.h" />
     <ClInclude Include="Source\Student\Project_1\NodeHeaders.h" />
     <ClInclude Include="Source\Student\Project_2\P2_Pathfinding.h" />
   </ItemGroup>
@@ -275,6 +277,7 @@
     <ClCompile Include="Source\Framework\BehaviorTrees\BehaviorTreePrototype.cpp" />
     <ClCompile Include="Source\Framework\BehaviorTrees\NodeInfo.cpp" />
     <ClCompile Include="Source\Framework\BehaviorTrees\TreeInfo.cpp" />
+    <ClCompile Include="Source\Framework\Core\AudioManager.cpp" />
     <ClCompile Include="Source\Framework\Core\Engine.cpp" />
     <ClCompile Include="Source\Framework\Core\Messenger.cpp" />
     <ClCompile Include="Source\Framework\Core\Serialization.cpp" />
@@ -337,6 +340,7 @@
     <ClCompile Include="Source\Student\Project_1\Leaf\L_MoveToFurthestAgent.cpp" />
     <ClCompile Include="Source\Student\Project_1\Leaf\L_MoveToMouseClick.cpp" />
     <ClCompile Include="Source\Student\Project_1\Leaf\L_MoveToRandomPosition.cpp" />
+    <ClCompile Include="Source\Student\Project_1\Leaf\L_PlaySound.cpp" />
     <ClCompile Include="Source\Student\Project_1\Setup.cpp" />
     <ClCompile Include="Source\Student\Project_2\P2_Pathfinding.cpp" />
     <ClCompile Include="Source\Student\Project_3\P3_TerrainAnalysis.cpp" />

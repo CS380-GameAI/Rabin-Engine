@@ -21,4 +21,12 @@ void ProjectOne::setup()
     auto camera = agents->get_camera_agent();
     camera->set_position(Vec3(-62.0f, 70.0f, terrain->mapSizeInWorld * 0.5f));
     camera->set_pitch(0.610865); // 35 degrees
+
+    audioManager->SetVolume(0.5f);
+    audioManager->PlaySoundEffect(L"Assets\\Audio\\retro.wav");
+    // uncomment for example on playing music in the engine (must be .wav)
+    // audioManager->PlayMusic(L"Assets\\Audio\\motivate.wav");
+    // audioManager->PauseMusic(...);
+    // audioManager->ResumeMusic(...);
+    // audioManager->StopMusic(...);
 }

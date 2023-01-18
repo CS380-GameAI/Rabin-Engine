@@ -24,6 +24,7 @@ bool ProjectOne::initialize()
     agents = std::make_unique<AgentOrganizer>();
     ui = std::make_unique<UICoordinator>();
     treeBuilder = std::make_unique<BehaviorTreeBuilder>();
+    audioManager = std::make_unique<AudioManager>();
     
     return terrain->initialize() &&
         agents->initialize() &&
