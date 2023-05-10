@@ -21,6 +21,7 @@ enum class Heuristic
 {
     OCTILE,
     CHEBYSHEV,
+    INCONSISTENT,
     MANHATTAN,
     EUCLIDEAN,
 

@@ -16,13 +16,13 @@ written consent of DigiPen Institute of Technology is prohibited.
 
 namespace
 {
-    const std::string heuristicText[] = { "Octile", "Chebyshev", "Manhattan", "Euclidean", "Invalid" };
+    const std::string heuristicText[] = { "Octile", "Chebyshev", "Inconsistent", "Manhattan", "Euclidean", "Invalid" };
     const std::string methodText[] = { "A*", "Floyd-Warshall", "JPS+", "Goal Bounding", "Invalid" };
 }
 
 const std::wstring &get_heuristic_wtext(Heuristic heuristic)
 {
-    static const std::wstring text[] = { L"Octile", L"Chebyshev", L"Manhattan", L"Euclidean", L"Invalid" };
+    static const std::wstring text[] = { L"Octile", L"Chebyshev", L"Inconsistent", L"Manhattan", L"Euclidean", L"Invalid" };
 
     return text[static_cast<size_t>(heuristic)];
 }
