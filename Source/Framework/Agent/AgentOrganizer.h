@@ -33,7 +33,7 @@ public:
     void release_rendering_resources();
 
     // agentType is for debug display and also looking up all agents of a specific type
-    BehaviorAgent *create_behavior_agent(const char *agentType, BehaviorTreeTypes treeType);
+    BehaviorAgent *create_behavior_agent(const char *agentType, BehaviorTreeTypes treeType,Agent::AgentModel model = Agent::AgentModel::Man);
     AStarAgent *create_pathing_agent();
     EnemyAgent *create_enemy_agent();
     void destroy_agent(Agent *agent);
@@ -49,6 +49,7 @@ private:
     CameraAgent *cameraAgent;
     std::vector<Agent *> agentsAll;
     std::unordered_map<const char *, std::vector<Agent *>> agentsByType;
+    std::unordered_map<Agent::AgentModel, std::vector<Agent*>> agentsByModel;
     std::unordered_map<const char *, size_t> agentIDCounts;
     std::vector<size_t> markedForDeletion;
 

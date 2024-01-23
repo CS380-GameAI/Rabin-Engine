@@ -62,6 +62,21 @@ public:
 
     virtual void update(float dt);
 
+    enum class AgentModel
+    {
+        Man,
+        Tree,
+        Car,
+        Bird,
+        Ball,
+        Hut,
+    };
+
+    // Additional: Getter and Setter for agentType
+    AgentModel getAgentModel();
+    void setAgentModel(AgentModel model);
+
+    static void add_model(std::string modelPath, AgentModel model);
 private:
     Vec3 position;
     Vec3 scaling;
@@ -77,13 +92,17 @@ private:
 
     float movementSpeed;
 
-    static std::unique_ptr<DirectX::Model> model;
-
+    static  std::vector<std::unique_ptr<DirectX::Model>> Agent::models;
+    static std::unordered_map<AgentModel, size_t> agentModelMap;
     void build_transformation();
 
-    void draw_mesh();
+    void draw_mesh(AgentModel model);
     virtual void draw_debug();
     static bool acquire_rendering_resources();
     static void release_rendering_resources();
     static void update_model(const Mat4 &view, const Mat4 &proj);
+
+
+    // Additional variables
+    AgentModel agentModel;
 };

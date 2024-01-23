@@ -47,33 +47,34 @@ void AgentOrganizer::release_rendering_resources()
     Agent::release_rendering_resources();
 }
 
-BehaviorAgent *AgentOrganizer::create_behavior_agent(const char *type, BehaviorTreeTypes treeType)
+BehaviorAgent* AgentOrganizer::create_behavior_agent(const char* type, BehaviorTreeTypes treeType, Agent::AgentModel model)
 {
     // make sure the tree builder is initialized
     if (treeBuilder)
     {
-        auto &idCounter = agentIDCounts[type];
+        auto& idCounter = agentIDCounts[type];
         const auto id = idCounter++;
 
         std::cout << "Creating agent " << type << id << std::endl;
 
         auto agent = new BehaviorAgent(type, id);
-
+        agent->setAgentModel(model);
         // build a tree from the prototype
         treeBuilder->build_tree(treeType, agent);
 
         agentsAll.emplace_back(agent);
         agentsByType[type].emplace_back(agent);
+        agentsByModel[model].emplace_back(agent);
 
-        #ifdef _DEBUG
-            assign_text_field(agent);
-        #endif
+#ifdef _DEBUG
+        assign_text_field(agent);
+#endif
 
         return agent;
     }
 
     std::cout << "Attempted to spawn behavior agent while not in project one" << std::endl;
-    return nullptr;    
+    return nullptr;
 }
 
 AStarAgent *AgentOrganizer::create_pathing_agent()
@@ -143,7 +144,7 @@ void AgentOrganizer::draw() const
 {
     for (const auto & agent : agentsAll)
     {
-        agent->draw_mesh();
+        agent->draw_mesh(agent->getAgentModel());
     }
 }
 

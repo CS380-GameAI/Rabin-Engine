@@ -19,7 +19,11 @@ const Vec3 globalRight = Vec3(-1.0f, 0.0f, 0.0f);
 const Vec3 globalForward = Vec3(0.0f, 0.0f, 1.0f);
 
 // TODO: move this temp model stuff to renderer in some capacity, if time permits
-std::unique_ptr<DirectX::Model> Agent::model;
+//std::unique_ptr<DirectX::Model> Agent::model;
+std::vector<std::unique_ptr<DirectX::Model>> Agent::models;
+
+
+std::unordered_map<Agent::AgentModel, size_t> Agent::agentModelMap;
 
 Agent::Agent(const char *type, size_t id) : position(0.0f, 0.0f, 0.0f),
     scaling(3.0f, 3.0f, 3.0f), eulerAngles(0.0f, 0.0f, 0.0f), isDirty(true), color(0.7f, 0.7f, 0.7f), type(type), id(id), movementSpeed(2000.0f / 2.3f)
@@ -154,16 +158,27 @@ void Agent::set_movement_speed(float speed)
 void Agent::update(float dt)
 {}
 
-void Agent::draw_mesh()
+Agent::AgentModel Agent::getAgentModel()
 {
-    model->UpdateEffects([this](DirectX::IEffect *effect)
-    {
-        auto basic = dynamic_cast<DirectX::BasicEffect *>(effect);
-        basic->SetDiffuseColor(color);
-    });
-    
-    auto &resources = renderer->get_resources();
-    model->Draw(resources.get_context(), *resources.get_states(), get_local_to_world(), renderer->get_view_matrix(), renderer->get_projection_matrix());
+    return agentModel;
+}
+
+void Agent::setAgentModel(AgentModel model)
+{
+	agentModel = model;
+}
+
+void Agent::draw_mesh(AgentModel model)
+{
+    models[agentModelMap[model]]->UpdateEffects([this](DirectX::IEffect* effect)
+        {
+            auto basic = dynamic_cast<DirectX::BasicEffect*>(effect);
+            basic->SetDiffuseColor(color);
+        });
+
+    auto& resources = renderer->get_resources();
+    models[agentModelMap[model]]->Draw(resources.get_context(), *resources.get_states(), get_local_to_world(), renderer->get_view_matrix(), renderer->get_projection_matrix());
+
 }
 
 void Agent::draw_debug()
@@ -173,12 +188,12 @@ void Agent::draw_debug()
 
 bool Agent::acquire_rendering_resources()
 {
-    std::cout << "Loading Agent model..." << std::endl;
+    std::cout <<  "Loading base Agent Model"  <<std::endl;
     auto device = renderer->get_resources().get_device();
     auto factory = renderer->get_resources().get_effect_factory();
     try
     {
-        model = DirectX::Model::CreateFromSDKMESH(device, L"Assets\\mannequin_rig.sdkmesh", *factory);
+        models.emplace_back(DirectX::Model::CreateFromSDKMESH(device, L"Assets\\mannequin_rig.sdkmesh", *factory));
     }
     catch (const std::exception &err)
     {
@@ -186,7 +201,8 @@ bool Agent::acquire_rendering_resources()
         return false;
     }
 
-    model->UpdateEffects([](DirectX::IEffect *effect)
+    // base model
+    models[0]->UpdateEffects([](DirectX::IEffect* effect)
     {
         auto basic = dynamic_cast<DirectX::BasicEffect*>(effect);
         if (basic)
@@ -201,22 +217,64 @@ bool Agent::acquire_rendering_resources()
         }
     });
 
+    agentModelMap[AgentModel::Man] = models.size() -1;
+
     return true;
 }
 
 void Agent::release_rendering_resources()
 {
-    model.reset();
+    for (int numOfModel = 0; numOfModel < static_cast<int>(models.size()); ++numOfModel)
+    {
+        models[numOfModel].reset();
+    }
 }
 
 void Agent::update_model(const Mat4 &view, const Mat4 &proj)
 {
-    model->UpdateEffects([view, proj](DirectX::IEffect *effect)
+    for (int numOfModel = 0; numOfModel < static_cast<int>(models.size()); ++numOfModel)
     {
-        auto basic = dynamic_cast<DirectX::BasicEffect *>(effect);
-        basic->SetView(view);
-        basic->SetProjection(proj);
-    });
+        models[numOfModel]->UpdateEffects([view, proj](DirectX::IEffect* effect)
+            {
+                auto basic = dynamic_cast<DirectX::BasicEffect*>(effect);
+                basic->SetView(view);
+                basic->SetProjection(proj);
+            });
+    }
+
+   
+}
+
+void Agent::add_model(std::string modelPath,AgentModel model)
+{
+	std::cout << "Loading Agent model from path..." << modelPath << std::endl;
+	auto device = renderer->get_resources().get_device();
+	auto factory = renderer->get_resources().get_effect_factory();
+	try
+	{
+        models.emplace_back(DirectX::Model::CreateFromSDKMESH(device, std::wstring(modelPath.begin(), modelPath.end()).c_str(), *factory));
+	}
+	catch (const std::exception &err)
+	{
+        std::cout << "Unable to load Agent model: " << err.what() << std::endl;
+	}
+
+    models.back()->UpdateEffects([](DirectX::IEffect* effect)
+        {
+            auto basic = dynamic_cast<DirectX::BasicEffect*>(effect);
+            if (basic)
+            {
+                basic->SetLightingEnabled(true);
+                basic->SetPerPixelLighting(true);
+                basic->SetLightEnabled(0, true);
+                basic->SetLightDiffuseColor(0, DirectX::Colors::White);
+
+                basic->SetLightEnabled(1, false);
+                basic->SetLightEnabled(2, false);
+            }
+        });
+
+    agentModelMap[model] = models.size()-1;
 }
 
 void Agent::build_transformation()
